@@ -4,10 +4,6 @@ export const PokeContext = createContext();
 
 export function PokeContextProvider(props) {
 
-  const myHeaders = new Headers();
-
-  let pokemonList = [];
-
   function getAllPokemon() {
     const requestPokemon = {
       method: 'GET',
@@ -15,8 +11,6 @@ export function PokeContextProvider(props) {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       }
-      //mode: "cors",
-      //cache: "default",
     };
 
     /* const allPokemon = await fetch(
@@ -45,16 +39,17 @@ export function PokeContextProvider(props) {
       return response.json()
     }).then(data => {
      
-      console.log(data)
-
     }).catch(error => console.log(error));
 
   }
+  
+  let pokemonList = []
+  pokemonList = getAllPokemon()
 
   return (
       <PokeContext.Provider
         value={{
-          pokemonList,
+          pokemonList
         }}
       >
         {props.children}
