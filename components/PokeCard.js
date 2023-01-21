@@ -3,10 +3,14 @@ import {
   View,
   Image,
 } from "react-native";
+import {useContext} from 'react'
 
   
 
 function PokeCards({pokemon}) {
+
+  
+  
   return (
     <View>
       <Image /> {/* Pokemon Image */}

@@ -1,33 +1,28 @@
 import { useContext } from "react";
 import { PokeContext } from "../context/PokeContext";
-import { Text, Image, TouchableOpacity } from "react-native";
-
-function PokeshowList(props) {
-  
-  const data = props.data;
-  let sprite = data.sprite
-
-  return(
-    <TouchableOpacity>
-      {data.map((data) => (
-        <>
-          <Image source={{ sprite }} />
-          <Text>{data.name}</Text>
-        </>
-      ))}
-    </TouchableOpacity>
-  )
-}
+import { View, Text, Image, TouchableOpacity } from "react-native";
 
 function PokeList() {
-  const { data } = useContext(PokeContext);
+  const { pokemonList } = useContext(PokeContext);
 
-  if (data.length === 0) {
-    return <Text>Pokemon are missing</Text>;
+  let sprite = pokemonList.sprite;
+  let id = pokemonList.id
+  
+  console.log(pokemonList)
+
+  if (pokemonList.length === 0) {
+    return <h1>Aun no hay pokemon</h1>;
   }
 
   return (
-    <PokeshowList key={data.id} data={data}/>
+    <View>
+      {pokemonList.map((pokemonList) => (
+        <TouchableOpacity key={id} onPress={""}>
+          <Image source={{ sprite }} />
+          <Text>{pokemonList.name}</Text>
+        </TouchableOpacity>
+      ))}
+    </View>
   );
 }
 

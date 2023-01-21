@@ -1,6 +1,4 @@
 import { createContext, useState, useEffect } from "react";
-import { View } from "react-native-web";
-import { poke as data } from "../data/poke";
 
 export const PokeContext = createContext();
 
@@ -10,44 +8,56 @@ export function PokeContextProvider(props) {
 
   let pokemonList = [];
 
-  async function getAllPokemon() {
+  function getAllPokemon() {
     const requestPokemon = {
-      method: "GET",
-      headers: myHeaders,
-      mode: "cors",
-      cache: "default",
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+      //mode: "cors",
+      //cache: "default",
     };
 
-    const allPokemon = await fetch(
+    /* const allPokemon = await fetch(
       "http://localhost:8000/pokemon/all",
       requestPokemon
     )
       .then((data) => {
         if (data["msg"] == "Success") {
           alert("Data sendend successfully");
+          console.log("desde el 200\n" + data)
         } else if (data["msg"] == "Error") {
+          console.log("desde el 404\n" + data)
           alert("ERROR 404");
         } else {
-          alert("ERROR 402 Pokemon not found");
+          console.log("desde el 402\n" + data)
+          alert("ERROR 402 List not found");
         }
       })
       .catch((error) => console.log(error.message));
-    return allPokemon;
+    return allPokemon; */
+
+    fetch("http://localhost:8000/pokemon/all", requestPokemon).then(response => {
+      if (!response.ok) {
+        throw new Error(`Request failed with status ${response.status}`)
+      }
+      return response.json()
+    }).then(data => {
+     
+      console.log(data)
+
+    }).catch(error => console.log(error));
+
   }
 
-  pokemonList.push(getAllPokemon());
-
-
   return (
-    <View>
       <PokeContext.Provider
         value={{
           pokemonList,
-          data,
         }}
       >
         {props.children}
       </PokeContext.Provider>
-    </View>
   );
 }
